@@ -39,9 +39,27 @@ int main() {
 
     // --- your turn: same pattern, one block each ---
     // subtraction:      a - b == (-3, -3, -3)
+    {
+        gmath::vec3 a{1.0f, 2.0f, 3.0f};
+        gmath::vec3 b{4.0f, 5.0f, 6.0f};
+        assert(approx_equal(a - b, gmath::vec3(-3.0f, -3.0f, -3.0)));
+    }
     // scalar multiply:  a * 2.0f == (2, 4, 6)
+    {
+        gmath::vec3 a{1.0f, 2.0f, 3.0f};
+        assert(approx_equal(a * 2.0f, gmath::vec3(2, 4, 6)));
+    }
     // scalar divide:    a / 2.0f == (0.5, 1, 1.5)
+    {
+        gmath::vec3 a{1.0f, 2.0f, 3.0f};
+        assert(approx_equal(a / 2.0f, gmath::vec3(0.5f, 1.0f, 1.5f)));
+    }
     // chaining:         (a + b) - b == a          <-- algebraic identity, the best kind of test
+    {
+        gmath::vec3 a{1.0f, 2.0f, 3.0f};
+        gmath::vec3 b{4.0f, 5.0f, 6.0f};
+        assert(approx_equal((a + b) - b, a));
+    }
 
     std::cout << "all tests passed\n";
     return 0;
