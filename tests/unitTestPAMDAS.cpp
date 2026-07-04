@@ -60,6 +60,11 @@ int main() {
         gmath::vec3 b{4.0f, 5.0f, 6.0f};
         assert(approx_equal((a + b) - b, a));
     }
+    // negating:        -(a) == (-a)
+    {
+        gmath::vec3 a{1.0f, 2.0f, 3.0f};
+        assert(approx_equal(-a, gmath::vec3(-1.0f, -2.0f, -3.0f)));
+    }
 
     std::cout << "all tests passed\n";
     return 0;
