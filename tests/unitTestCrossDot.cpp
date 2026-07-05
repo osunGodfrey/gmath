@@ -49,13 +49,21 @@ int main() {
     //          ---- cross rules ----
 
     // cross right hand rules       exp: cross({0,0,1},{0,1,0}) = {1,0,0}
+    // cross right-hand rule — cyclic order is x→y→z→x
     {
-        gmath::vec3 a{1.0f, 0.0f, 0.0f};
-        gmath::vec3 b{0.0f, 1.0f, 0.0f};
-        gmath::vec3 c{0.0f, 0.0f, 1.0f};
-        assert(approx_equal(gmath::cross(a,b), c));
-        assert(approx_equal(gmath::cross(b,c), a));
-        assert(approx_equal(gmath::cross(a,c), b));
+        gmath::vec3 x{1.0f, 0.0f, 0.0f};
+        gmath::vec3 y{0.0f, 1.0f, 0.0f};
+        gmath::vec3 z{0.0f, 0.0f, 1.0f};
+
+        // with the cycle: positive results
+        assert(approx_equal(gmath::cross(x, y),  z));
+        assert(approx_equal(gmath::cross(y, z),  x));
+        assert(approx_equal(gmath::cross(z, x),  y));   // note: (z, x), not (x, z)
+
+        // against the cycle: negated results
+        assert(approx_equal(gmath::cross(y, x), -z));
+        assert(approx_equal(gmath::cross(z, y), -x));
+        assert(approx_equal(gmath::cross(x, z), -y));   // <-- the one your old test had backwards
     }
     // cross anticommutativity rule       cross(a,b) == -(cross(b,a))
     {
