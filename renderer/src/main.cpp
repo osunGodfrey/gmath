@@ -1,9 +1,12 @@
 #include <fstream>
 #include <iostream>
+#include <vector>
 #include "gmath/vec3.hpp"
 
 const int width = 256;
 const int height = 256;
+const float radius = 80.0f;
+gmath::vec3 center{width / 2.0f, height / 2.0f, 0.0f};
 
 int to_byte(float channel)
 {
@@ -13,6 +16,26 @@ int to_byte(float channel)
 void write_pixel(std::ofstream& out, const gmath::vec3& color)
 {
     out << to_byte(color.x) << " " << to_byte(color.y) << " " << to_byte(color.z) << " ";
+}
+
+float hits(int j, int i)
+{
+    int count = 0;
+    std::vector<float> samples = {0.25f, -0.25f};
+    for(auto s : samples)
+    {
+        for(auto t : samples)
+        {
+            gmath::vec3 dots{j + s, i + t, 0.0f};
+            gmath::vec3 offset = dots - center;
+            if(offset.length_squared() < radius * radius)
+            {
+                count++;
+            }
+        }
+    }
+    return count / 4.0f;
+    
 }
 
 int main()
@@ -28,7 +51,10 @@ int main()
         {
             float r = float(j) / float(width - 1);
             float g = float(i) / float(height - 1);
-            gmath::vec3 color(r, g, 0.0f);
+            float t = hits(j, i);
+            gmath::vec3 background{r, g, 0.0f};
+            gmath::vec3 circle_color{1.0f, 0.0f, 0.0f};
+            gmath::vec3 color = background * (1.0f - t) + circle_color * t;
             write_pixel(out, color);
         }
         out << "\n";
