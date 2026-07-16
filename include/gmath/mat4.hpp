@@ -2,6 +2,7 @@
 #include <iostream>
 #include <array>
 #include <cmath>
+#include "gmath/vec3.hpp"
 #include "gmath/vec4.hpp"
 
 namespace gmath
@@ -117,4 +118,51 @@ namespace gmath
 
     };
 
+    inline mat4 translate(const vec3& v)
+    {
+        gmath::mat4 t;
+        t(0, 3) = v.x;
+        t(1, 3) = v.y;
+        t(2, 3) = v.z;
+        return t;
+    }
+
+    inline mat4 scale(const vec3& v)
+    {
+        gmath::mat4 s;
+        s(0, 0) = v.x;
+        s(1, 1) = v.y;
+        s(2, 2) = v.z;
+        return s;
+    }
+
+    inline mat4 rotate_z(float z)
+    {
+        gmath::mat4 rz;
+        rz(0, 0) = std::cos(z);
+        rz(0, 1) = -std::sin(z);
+        rz(1, 0) = std::sin(z);
+        rz(1, 1) = std::cos(z);
+        return rz;
+    }
+
+    inline mat4 rotate_x(float x)
+    {
+        gmath::mat4 rx;
+        rx(1, 1) = std::cos(x);
+        rx(1, 2) = -std::sin(x);
+        rx(2, 1) = std::sin(x);
+        rx(2, 2) = std::cos(x);
+        return rx;
+    }
+
+    inline mat4 rotate_y(float y)
+    {
+        gmath::mat4 ry;
+        ry(0, 0) = std::cos(y);
+        ry(0, 2) = std::sin(y);
+        ry(2, 0) = -std::sin(y);
+        ry(2, 2) = std::cos(y);
+        return ry;
+    }
 }
