@@ -44,6 +44,23 @@ namespace gmath
             return *this;
         }
 
+        dynarray(dynarray&& other) noexcept
+            : data(other.data), size_(other.size_)
+        {
+            other.data = nullptr;
+            other.size_ = 0;
+        }
+
+        dynarray& operator=(dynarray&& other) noexcept {
+            if (this == &other) return *this;
+            delete[] data;
+            data = other.data;
+            size_ = other.size_;
+            other.data = nullptr;
+            other.size_ = 0;
+            return *this;
+        }
+
 
     };
 }
